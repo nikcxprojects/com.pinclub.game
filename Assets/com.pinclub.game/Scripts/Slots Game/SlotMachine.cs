@@ -120,7 +120,7 @@ public class SlotMachine : MonoBehaviour
         Manager.OnEndRolling?.Invoke(UnityEngine.Random.Range(0, 100));
         FindObjectOfType<UIManager>().BackStatus(true);
 
-        if (UnityEngine.Random.Range(0, 100) > 1)
+        if (UnityEngine.Random.Range(0, 100) > 70)
         {
             Instantiate(Resources.Load<WinPopup>("popup"), GameObject.Find("main canvas").transform);
         }

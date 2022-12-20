@@ -10,9 +10,9 @@ public class SFXOption : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(() =>
         {
             IsEnable = !IsEnable;
-            GetComponent<Image>().color = IsEnable ? Color.red : Color.green;
+            GetComponent<Image>().color = IsEnable ? new Color(1,1,1,0.25f) : new Color(1, 1, 1, 1);
         });
 
-        GetComponent<Image>().color = IsEnable ? Color.red : Color.green;
+        GetComponent<Image>().color = IsEnable ? new Color(1, 1, 1, 0.25f) : new Color(1, 1, 1, 1);
     }
 }

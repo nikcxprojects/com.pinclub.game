@@ -117,17 +117,12 @@ public class SlotMachine : MonoBehaviour
         spinBtn.interactable = !autoSpin;
         spinSource.Stop();
 
-        Manager.OnEndRolling?.Invoke(UnityEngine.Random.Range(0, 100));
         FindObjectOfType<UIManager>().BackStatus(true);
 
         if (UnityEngine.Random.Range(0, 100) > 70)
         {
+            Manager.OnEndRolling?.Invoke(UnityEngine.Random.Range(0, 100));
             Instantiate(Resources.Load<WinPopup>("popup"), GameObject.Find("main canvas").transform);
-        }
-
-        if (VibraOption.IsEnable)
-        {
-            Handheld.Vibrate();
         }
     }
 

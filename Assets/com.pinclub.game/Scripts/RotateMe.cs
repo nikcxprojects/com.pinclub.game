@@ -4,6 +4,6 @@ public class RotateMe : MonoBehaviour
 {
     private void Update()
     {
-        transform.Rotate(100 * Time.deltaTime * Vector3.back);
+        transform.Rotate(35 * Time.deltaTime * Vector3.back);
     }
 }

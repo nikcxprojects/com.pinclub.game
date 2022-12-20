@@ -1,6 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+using Random = UnityEngine.Random;
 
 public class CardGameManager : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class CardGameManager : MonoBehaviour
 
         for(int i = 0; i < cards.Length; i++)
         {
-            Instantiate(cards[i], GameObject.Find("deck").transform);
+            Card card = Instantiate(cards[i], GameObject.Find("deck").transform);
         }
     }
 }

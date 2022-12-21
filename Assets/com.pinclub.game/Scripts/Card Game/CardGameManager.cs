@@ -23,8 +23,8 @@ public class CardGameManager : MonoBehaviour
             Card tmp = cards[i];
             int rv = Random.Range(i, cards.Count);
 
-            cards[rv] = cards[i];
-            cards[i] = tmp;
+            cards[i] = cards[rv];
+            cards[rv] = tmp;
         }
 
         StartCoroutine(DropCards(cards));
@@ -39,8 +39,10 @@ public class CardGameManager : MonoBehaviour
         {
             for(int i = 0; i < players.Length; i++)
             {
-                Card card = Instantiate(cards.Last(), GameObject.Find("deck").transform);
-                cards.Remove(card);
+                Card tmp = cards.Last();
+
+                Instantiate(tmp, GameObject.Find("deck").transform);
+                cards.Remove(tmp);
 
                 yield return new WaitForSeconds(dropOffset);
             }

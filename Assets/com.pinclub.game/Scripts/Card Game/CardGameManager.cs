@@ -39,6 +39,8 @@ public class CardGameManager : MonoBehaviour
             cards[rv] = tmp;
         }
 
+        //BotProcess = 
+
         StartCoroutine(DropCards(cards));
     }
 
@@ -60,6 +62,8 @@ public class CardGameManager : MonoBehaviour
 
                 card.SetCardData(cardFaceSprite, CardBackSprite, players[i]);
                 card.Flip(true);
+
+                players[i].AddCard(card);
 
                 card.StartCoroutine(DropCardToPlayer(card, players[i]));
                 yield return new WaitForSeconds(dropOffset);
@@ -94,6 +98,8 @@ public class CardGameManager : MonoBehaviour
 
         while (true)
         {
+            yield return StartCoroutine(PlayerProcess);
+            yield return StartCoroutine(BotProcess);
             yield return null;
         }
     }

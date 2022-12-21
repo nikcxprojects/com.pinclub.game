@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class Player : MonoBehaviour
     private TextMeshPro countText;
 
     public bool IsBot;
+    public List<Card> Cards { get; set; }
 
     private void Awake()
     {
@@ -23,5 +26,16 @@ public class Player : MonoBehaviour
     {
         Vector2 position = card.PlayerRef.IsBot ? new Vector2(0, 1.15f) : new Vector2(0, -1.15f);
         card.transform.position = position;
+    }
+
+    public void AddCard(Card card)
+    {
+        Cards.Add(card);
+    }
+
+    public IEnumerator Logic()
+    {
+        yield return new WaitForSeconds(Random.Range(0.25f, 1.0f));
+        //DropCard()
     }
 }

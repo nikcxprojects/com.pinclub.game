@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -7,13 +8,14 @@ public class Player : MonoBehaviour
     private TextMeshPro countText;
 
     public bool IsBot;
+    public static Action OnCardGet { get; set; }
 
     private void Awake()
     {
-        countText = GetComponent<TextMeshPro>();
+        countText = GetComponentInChildren<TextMeshPro>();
         countText.text = $"{count}";
 
-        CardGameManager.OnCardGet += () =>
+        OnCardGet += () =>
         {
             countText.text = $"{++count}";
         };

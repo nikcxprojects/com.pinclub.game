@@ -21,13 +21,8 @@ public class Card : MonoBehaviour
             return;
         }
 
-        DropCard();
+        PlayerRef.DropCard(this);
         Flip(false);
-    }
-
-    public void DropCard()
-    {
-        transform.position = PlayerRef.IsBot ? new Vector2(0, 1.15f) : new Vector2(0, -1.15f);
     }
 
     public void Flip(bool IsHide)

@@ -12,6 +12,9 @@ public class CardGameManager : MonoBehaviour
     private Sprite CardBackSprite { get; set; }
     public static bool GameStarted { get; set; }
 
+    private IEnumerator PlayerProcess { get; set; }
+    private IEnumerator BotProcess { get; set; }
+
     private void Awake()
     {
         CardBackSprite = Resources.Load<Sprite>("CardBackSprite");
@@ -66,7 +69,7 @@ public class CardGameManager : MonoBehaviour
             yield return null;
         }
 
-        GameStarted = true;
+        StartCoroutine(nameof(GameProcess));
     }
 
     private IEnumerator DropCardToPlayer(Card card, Player player)
@@ -83,5 +86,15 @@ public class CardGameManager : MonoBehaviour
         }
 
         card.transform.position = player.transform.position;
+    }
+
+    private IEnumerator GameProcess()
+    {
+        GameStarted = true;
+
+        while (true)
+        {
+            yield return null;
+        }
     }
 }

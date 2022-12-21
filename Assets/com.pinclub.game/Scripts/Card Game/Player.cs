@@ -18,4 +18,10 @@ public class Player : MonoBehaviour
             countText.text = $"{++count}";
         };
     }
+
+    public void DropCard(Card card)
+    {
+        Vector2 position = card.PlayerRef.IsBot ? new Vector2(0, 1.15f) : new Vector2(0, -1.15f);
+        card.transform.position = position;
+    }
 }

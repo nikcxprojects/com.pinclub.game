@@ -15,14 +15,19 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Card DroppedCard = null;
 
+    public int CardCount
+    {
+        get => Cards.Count;
+    }
+
     private void Awake()
     {
         countText = GetComponentInChildren<TextMeshPro>();
-        countText.text = $"{Cards.Count}";
+        countText.text = $"{CardCount}";
 
         CardGameManager.OnCardGet += () =>
         {
-            countText.text = $"{Cards.Count}";
+            countText.text = $"{CardCount}";
         };
     }
 
@@ -36,7 +41,7 @@ public class Player : MonoBehaviour
         card.Flip(false);
 
         Cards.Remove(card);
-        countText.text = $"{Cards.Count}";
+        countText.text = $"{CardCount}";
     }
 
     public void AddCard(Card card)

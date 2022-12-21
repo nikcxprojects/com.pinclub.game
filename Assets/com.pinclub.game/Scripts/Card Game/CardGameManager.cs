@@ -157,6 +157,17 @@ public class CardGameManager : MonoBehaviour
             bot.DroppedCard.PlayerRef = player;
         }
 
+        bool endGame = player.CardCount == 0 || bot.CardCount == 0;
+        if(endGame)
+        {
+            bool IsWin = player.CardCount > 0;
+            if(IsWin)
+            {
+                Instantiate(Resources.Load<WinPopup>("popup"), GameObject.Find("main canvas").transform);
+                yield break;
+            }
+        }
+
         OnCardGet?.Invoke();
         GameStarted = true;
     }

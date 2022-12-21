@@ -25,10 +25,21 @@ public class Player : MonoBehaviour
         countText = GetComponentInChildren<TextMeshPro>();
         countText.text = $"{CardCount}";
 
+        countText.enabled = false;
+
         CardGameManager.OnCardGet += () =>
         {
             countText.text = $"{CardCount}";
+            if(!countText.enabled)
+            {
+                countText.enabled = true;
+            }
         };
+    }
+
+    private void OnDestroy()
+    {
+        CardGameManager.OnCardGet = null;
     }
 
     public void DropCard(Card card)

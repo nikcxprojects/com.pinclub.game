@@ -164,6 +164,8 @@ public class CardGameManager : MonoBehaviour
             if(IsWin)
             {
                 Instantiate(Resources.Load<WinPopup>("popup"), GameObject.Find("main canvas").transform);
+                StopCoroutine(nameof(GameProcess));
+
                 yield break;
             }
         }

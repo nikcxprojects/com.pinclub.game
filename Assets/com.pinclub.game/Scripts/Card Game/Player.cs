@@ -2,6 +2,9 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +13,9 @@ public class Player : MonoBehaviour
 
     public bool IsBot;
     private List<Card> Cards { get; set; } = new List<Card>();
+
+    [HideInInspector]
+    public Card DroppedCard = null;
 
     private void Awake()
     {
@@ -24,8 +30,12 @@ public class Player : MonoBehaviour
 
     public void DropCard(Card card)
     {
-        Vector2 position = card.PlayerRef.IsBot ? new Vector2(0, 1.15f) : new Vector2(0, -1.15f);
+        DroppedCard = card;
+
+        Vector2 position = card.PlayerRef.IsBot ? new Vector2(0, 1.3f) : new Vector2(0, -1.3f);
         card.transform.position = position;
+
+        card.Flip(false);
     }
 
     public void AddCard(Card card)

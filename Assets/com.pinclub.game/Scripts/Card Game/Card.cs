@@ -16,13 +16,13 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(PlayerRef.IsBot || !CardGameManager.GameStarted)
+        if(PlayerRef.IsBot || !CardGameManager.GameStarted || !CardGameManager.PlayerStep)
         {
             return;
         }
 
         PlayerRef.DropCard(this);
-        Flip(false);
+        CardGameManager.PlayerStep = false;
     }
 
     public void Flip(bool IsHide)

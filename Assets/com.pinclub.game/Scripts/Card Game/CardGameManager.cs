@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class CardGameManager : MonoBehaviour
 {
+    public static bool PlayerStep { get; set; }
     public static Action OnCardGet { get; set; }
     private Sprite CardBackSprite { get; set; }
     public static bool GameStarted { get; set; }
@@ -27,6 +28,7 @@ public class CardGameManager : MonoBehaviour
     private void StartGame()
     {
         GameStarted = false;
+        PlayerStep = false;
 
         List<Card> cards = Resources.LoadAll<Card>("Cards").ToList();
         for(int i = 0; i < cards.Count; i++)
@@ -91,14 +93,23 @@ public class CardGameManager : MonoBehaviour
     private IEnumerator GameProcess()
     {
         GameStarted = true;
+
+        Player player = FindObjectsOfType<Player>().OfType<Player>().Where(i => !i.IsBot).First();
         Player bot = FindObjectsOfType<Player>().OfType<Player>().Where(i => i.IsBot).First();
 
         BotProcess = bot.BotLogic();
 
         while (true)
         {
-            yield return StartCoroutine(BotProcess);
-            yield return null;
+            yield return BotProcess;
+            PlayerStep = true;
+
+            while (PlayerStep)
+            {
+                yield return null;
+            }
+
+            BotProcess = bot.BotLogic();
         }
     }
 }

@@ -32,7 +32,7 @@ public class CardGameManager : MonoBehaviour
 
     private IEnumerator DropCards(List<Card> cards)
     {
-        float dropOffset = 0.25f;
+        float dropOffset = 0.1f;
         Player[] players = FindObjectsOfType<Player>();
 
         while(cards.Count > 0)
@@ -41,13 +41,30 @@ public class CardGameManager : MonoBehaviour
             {
                 Card tmp = cards.Last();
 
-                Instantiate(tmp, GameObject.Find("deck").transform);
+                Card card = Instantiate(tmp, GameObject.Find("deck").transform);
                 cards.Remove(tmp);
 
+                StartCoroutine(DropCardToPlayer(card, players[i]));
                 yield return new WaitForSeconds(dropOffset);
             }
 
             yield return null;
         }
+    }
+
+    private IEnumerator DropCardToPlayer(Card card, Player player)
+    {
+        float et = 0.0f;
+        float dropDuration = 0.1f;
+
+        while(et < dropDuration)
+        {
+            card.transform.position = Vector2.Lerp(Vector2.zero, player.transform.position, et / dropDuration);
+
+            et += Time.deltaTime;
+            yield return null;
+        }
+
+        card.transform.position = player.transform.position;
     }
 }

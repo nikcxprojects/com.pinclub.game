@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
         card.transform.position = position;
 
         card.Flip(false);
+
+        Cards.Remove(card);
         countText.text = $"{Cards.Count}";
     }
 
@@ -48,8 +50,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(0.25f, 1.0f));
 
         Card tmp = Cards[Random.Range(0, Cards.Count)];
-
         DropCard(tmp);
-        Cards.Remove(tmp);
     }
 }

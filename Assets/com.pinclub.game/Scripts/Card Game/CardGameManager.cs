@@ -121,10 +121,23 @@ public class CardGameManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.25f);
 
-        Debug.Log(player.DroppedCard.price);
-        Debug.Log(bot.DroppedCard.price);
+        int playerCardPrice =player.DroppedCard.price;
+        int botCardPrice = bot.DroppedCard.price;
 
-        Destroy(player.DroppedCard.gameObject);
-        Destroy(bot.DroppedCard.gameObject);
+        Debug.Log($"{playerCardPrice} {botCardPrice}");
+
+        player.DroppedCard.Flip(true);
+        bot.DroppedCard.Flip(true);
+
+        if (playerCardPrice > botCardPrice)
+        {
+            StartCoroutine(DropCardToPlayer(player.DroppedCard, player));
+            StartCoroutine(DropCardToPlayer(bot.DroppedCard, player));
+        }
+        else if(botCardPrice > playerCardPrice)
+        {
+            StartCoroutine(DropCardToPlayer(bot.DroppedCard, bot));
+            StartCoroutine(DropCardToPlayer(player.DroppedCard, bot));
+        }
     }
 }

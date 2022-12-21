@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
         card.transform.position = position;
 
         card.Flip(false);
+        countText.text = $"{--count}";
     }
 
     public void AddCard(Card card)

@@ -10,6 +10,7 @@ public class CardGameManager : MonoBehaviour
 {
     public static Action OnCardGet { get; set; }
     private Sprite CardBackSprite { get; set; }
+    public static bool GameStarted { get; set; }
 
     private void Awake()
     {
@@ -23,6 +24,8 @@ public class CardGameManager : MonoBehaviour
 
     private void StartGame()
     {
+        GameStarted = false;
+
         List<Card> cards = Resources.LoadAll<Card>("Cards").ToList();
         for(int i = 0; i < cards.Count; i++)
         {
@@ -52,7 +55,7 @@ public class CardGameManager : MonoBehaviour
 
                 Sprite cardFaceSprite = card.GetComponent<SpriteRenderer>().sprite;
 
-                card.SetCardData(cardFaceSprite, CardBackSprite);
+                card.SetCardData(cardFaceSprite, CardBackSprite, players[i]);
                 card.Flip(true);
 
                 card.StartCoroutine(DropCardToPlayer(card, players[i]));
@@ -62,6 +65,8 @@ public class CardGameManager : MonoBehaviour
             OnCardGet?.Invoke();
             yield return null;
         }
+
+        GameStarted = true;
     }
 
     private IEnumerator DropCardToPlayer(Card card, Player player)

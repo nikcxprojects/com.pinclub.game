@@ -13,6 +13,8 @@ public class CardGameManager : MonoBehaviour
     private Sprite CardBackSprite { get; set; }
     public static bool GameStarted { get; set; }
 
+    public bool playerStep;
+
     private IEnumerator BotProcess { get; set; }
 
     private void Awake()
@@ -23,6 +25,11 @@ public class CardGameManager : MonoBehaviour
     private void OnEnable()
     {
         StartGame();
+    }
+
+    private void Update()
+    {
+        playerStep = PlayerStep;
     }
 
     private void StartGame()
@@ -94,16 +101,14 @@ public class CardGameManager : MonoBehaviour
     {
         GameStarted = true;
 
-        Player player = FindObjectsOfType<Player>().OfType<Player>().Where(i => !i.IsBot).First();
         Player bot = FindObjectsOfType<Player>().OfType<Player>().Where(i => i.IsBot).First();
-
         BotProcess = bot.BotLogic();
 
         while (true)
         {
             yield return BotProcess;
             PlayerStep = true;
-
+            
             while (PlayerStep)
             {
                 yield return null;
@@ -126,20 +131,30 @@ public class CardGameManager : MonoBehaviour
         int playerCardPrice =player.DroppedCard.price;
         int botCardPrice = bot.DroppedCard.price;
 
-        Debug.Log($"{playerCardPrice} {botCardPrice}");
-
         player.DroppedCard.Flip(true);
         bot.DroppedCard.Flip(true);
 
         if (playerCardPrice > botCardPrice)
         {
-            StartCoroutine(DropCardToPlayer(player.DroppedCard, player));
-            StartCoroutine(DropCardToPlayer(bot.DroppedCard, player));
+            yield return StartCoroutine(DropCardToPlayer(player.DroppedCard, player));
+            yield return StartCoroutine(DropCardToPlayer(bot.DroppedCard, player));
+
+            bot.DroppedCard.PlayerRef = player;
         }
         else if(botCardPrice > playerCardPrice)
         {
-            StartCoroutine(DropCardToPlayer(bot.DroppedCard, bot));
-            StartCoroutine(DropCardToPlayer(player.DroppedCard, bot));
+            yield return StartCoroutine(DropCardToPlayer(bot.DroppedCard, bot));
+            yield return StartCoroutine(DropCardToPlayer(player.DroppedCard, bot));
+
+            player.DroppedCard.PlayerRef = bot;
+        }
+        else
+        {
+            yield return StartCoroutine(DropCardToPlayer(bot.DroppedCard, player));
+            yield return StartCoroutine(DropCardToPlayer(player.DroppedCard, bot));
+
+            player.DroppedCard.PlayerRef = bot;
+            bot.DroppedCard.PlayerRef = player;
         }
 
         OnCardGet?.Invoke();

@@ -5,22 +5,21 @@ public class Card : MonoBehaviour
 {
     public int price;
 
-    public void Drop(Vector2 _position)
+    private SpriteRenderer Renderer { get; set; }
+    private (Sprite face, Sprite back) CardData { get; set; }
+
+    private void Awake()
     {
-        StartCoroutine(DropCard(_position));
+        Renderer = GetComponent<SpriteRenderer>();
     }
 
-    IEnumerator DropCard(Vector2 position)
+    public void Flip(bool IsHide)
     {
-        float et = 0.0f;
-        float dropDuration = 0.25f;
+        Renderer.sprite = IsHide ? CardData.back : CardData.face;
+    }
 
-        while(et < dropDuration)
-        {
-            transform.position = Vector2.Lerp(Vector2.zero, position, et / dropDuration);
-
-            et += Time.deltaTime;
-            yield return null;
-        }
+    public void SetCardData(Sprite face, Sprite back)
+    {
+        CardData = (face, back);
     }
 }

@@ -9,6 +9,12 @@ using Random = UnityEngine.Random;
 public class CardGameManager : MonoBehaviour
 {
     public static Action OnCardGet { get; set; }
+    private Sprite CardBackSprite { get; set; }
+
+    private void Awake()
+    {
+        CardBackSprite = Resources.Load<Sprite>("CardBackSprite");
+    }
 
     private void OnEnable()
     {
@@ -44,7 +50,12 @@ public class CardGameManager : MonoBehaviour
                 Card card = Instantiate(tmp, GameObject.Find("deck").transform);
                 cards.Remove(tmp);
 
-                StartCoroutine(DropCardToPlayer(card, players[i]));
+                Sprite cardFaceSprite = card.GetComponent<SpriteRenderer>().sprite;
+
+                card.SetCardData(cardFaceSprite, CardBackSprite);
+                card.Flip(true);
+
+                card.StartCoroutine(DropCardToPlayer(card, players[i]));
                 yield return new WaitForSeconds(dropOffset);
             }
 
@@ -66,5 +77,6 @@ public class CardGameManager : MonoBehaviour
         }
 
         card.transform.position = player.transform.position;
+        OnCardGet?.Invoke();
     }
 }

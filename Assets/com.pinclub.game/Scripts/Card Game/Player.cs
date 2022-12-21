@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         countText = GetComponent<TextMeshPro>();
+        countText.text = $"{count}";
+
         CardGameManager.OnCardGet += () =>
         {
             countText.text = $"{++count}";

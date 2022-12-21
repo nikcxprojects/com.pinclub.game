@@ -109,7 +109,22 @@ public class CardGameManager : MonoBehaviour
                 yield return null;
             }
 
+            yield return StartCoroutine(nameof(CheckResult));
             BotProcess = bot.BotLogic();
         }
+    }
+
+    private IEnumerator CheckResult()
+    {
+        Player player = FindObjectsOfType<Player>().OfType<Player>().Where(i => !i.IsBot).First();
+        Player bot = FindObjectsOfType<Player>().OfType<Player>().Where(i => i.IsBot).First();
+
+        yield return new WaitForSeconds(0.25f);
+
+        Debug.Log(player.DroppedCard.price);
+        Debug.Log(bot.DroppedCard.price);
+
+        Destroy(player.DroppedCard.gameObject);
+        Destroy(bot.DroppedCard.gameObject);
     }
 }

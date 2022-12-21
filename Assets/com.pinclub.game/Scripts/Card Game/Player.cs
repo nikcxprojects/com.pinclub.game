@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
-    private int count;
     private TextMeshPro countText;
 
     public bool IsBot;
@@ -20,11 +19,11 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         countText = GetComponentInChildren<TextMeshPro>();
-        countText.text = $"{count}";
+        countText.text = $"{Cards.Count}";
 
         CardGameManager.OnCardGet += () =>
         {
-            countText.text = $"{++count}";
+            countText.text = $"{Cards.Count}";
         };
     }
 
@@ -36,7 +35,7 @@ public class Player : MonoBehaviour
         card.transform.position = position;
 
         card.Flip(false);
-        countText.text = $"{--count}";
+        countText.text = $"{Cards.Count}";
     }
 
     public void AddCard(Card card)

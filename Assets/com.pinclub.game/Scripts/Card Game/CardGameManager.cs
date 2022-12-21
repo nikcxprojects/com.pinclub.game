@@ -116,6 +116,8 @@ public class CardGameManager : MonoBehaviour
 
     private IEnumerator CheckResult()
     {
+        GameStarted = false;
+
         Player player = FindObjectsOfType<Player>().OfType<Player>().Where(i => !i.IsBot).First();
         Player bot = FindObjectsOfType<Player>().OfType<Player>().Where(i => i.IsBot).First();
 
@@ -139,5 +141,8 @@ public class CardGameManager : MonoBehaviour
             StartCoroutine(DropCardToPlayer(bot.DroppedCard, bot));
             StartCoroutine(DropCardToPlayer(player.DroppedCard, bot));
         }
+
+        OnCardGet?.Invoke();
+        GameStarted = true;
     }
 }

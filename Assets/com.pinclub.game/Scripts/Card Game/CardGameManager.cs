@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class CardGameManager : MonoBehaviour
 {
+    public static Action OnCardGet { get; set; }
     private Sprite CardBackSprite { get; set; }
 
     private void Awake()
@@ -57,6 +59,7 @@ public class CardGameManager : MonoBehaviour
                 yield return new WaitForSeconds(dropOffset);
             }
 
+            OnCardGet?.Invoke();
             yield return null;
         }
     }
@@ -75,6 +78,5 @@ public class CardGameManager : MonoBehaviour
         }
 
         card.transform.position = player.transform.position;
-        Player.OnCardGet?.Invoke();
     }
 }

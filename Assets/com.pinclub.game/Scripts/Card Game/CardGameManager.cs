@@ -12,7 +12,6 @@ public class CardGameManager : MonoBehaviour
     private Sprite CardBackSprite { get; set; }
     public static bool GameStarted { get; set; }
 
-    private IEnumerator PlayerProcess { get; set; }
     private IEnumerator BotProcess { get; set; }
 
     private void Awake()
@@ -39,8 +38,6 @@ public class CardGameManager : MonoBehaviour
             cards[rv] = tmp;
         }
 
-        //BotProcess = 
-
         StartCoroutine(DropCards(cards));
     }
 
@@ -56,14 +53,12 @@ public class CardGameManager : MonoBehaviour
                 Card tmp = cards.Last();
 
                 Card card = Instantiate(tmp, GameObject.Find("deck").transform);
-                cards.Remove(tmp);
-
                 Sprite cardFaceSprite = card.GetComponent<SpriteRenderer>().sprite;
 
                 card.SetCardData(cardFaceSprite, CardBackSprite, players[i]);
                 card.Flip(true);
 
-                players[i].AddCard(card);
+                cards.Remove(tmp);
 
                 card.StartCoroutine(DropCardToPlayer(card, players[i]));
                 yield return new WaitForSeconds(dropOffset);
@@ -90,15 +85,18 @@ public class CardGameManager : MonoBehaviour
         }
 
         card.transform.position = player.transform.position;
+        player.AddCard(card);
     }
 
     private IEnumerator GameProcess()
     {
         GameStarted = true;
+        Player bot = FindObjectsOfType<Player>().OfType<Player>().Where(i => i.IsBot).First();
+
+        BotProcess = bot.BotLogic();
 
         while (true)
         {
-            yield return StartCoroutine(PlayerProcess);
             yield return StartCoroutine(BotProcess);
             yield return null;
         }

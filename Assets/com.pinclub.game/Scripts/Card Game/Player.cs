@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private TextMeshPro countText;
 
     public bool IsBot;
-    public List<Card> Cards { get; set; }
+    private List<Card> Cards { get; set; } = new List<Card>();
 
     private void Awake()
     {
@@ -33,9 +33,13 @@ public class Player : MonoBehaviour
         Cards.Add(card);
     }
 
-    public IEnumerator Logic()
+    public IEnumerator BotLogic()
     {
         yield return new WaitForSeconds(Random.Range(0.25f, 1.0f));
-        //DropCard()
+
+        Card tmp = Cards[Random.Range(0, Cards.Count)];
+
+        DropCard(tmp);
+        Cards.Remove(tmp);
     }
 }
